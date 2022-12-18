@@ -19,7 +19,10 @@
         </div>
 
         <div class="header-2">
-            <button id="load-btn">Load Data</button>
+            <!-- <button id="load-btn">Load Data</button> -->
+            <input type="button" id="fname" placeholder="Lirst name">
+            <input type="button" id="lname" placeholder="Last name">
+            <button>Add</button>
         </div>
 
 
@@ -47,7 +50,7 @@
             $('#load-btn').click(function(){
 
                 $.ajax({
-                    url: "ajax-call/select.php",
+                    url: "ajax-call /select.php",
                     type: "POST",
                     success: function(data){
                      $('#record-table').html(data);
