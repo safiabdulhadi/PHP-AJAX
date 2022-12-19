@@ -21,6 +21,7 @@ body{
 }
 .header-1{
     background-color: rgb(33, 33, 200);
+    color: white;
 }
 .header-2{
     background-color: rgb(103, 103, 218);
@@ -28,7 +29,8 @@ body{
 .body{
     padding: 20px;
 }
-input,button{
+input,
+button{
     padding: 5px 10px;
     font-size: 1.2em;
     border: none;
@@ -53,14 +55,23 @@ table thead tr{
 background-color: salmon;
 }
 
+#success-msg,
+#error-msg{
+    position: absolute;
+    padding: 10px 20px;
+    top: 20px;
+    right: 10px;
+    /* display: none; */
+}
 
 #success-msg{
-    background-color: rgb(130, 217, 114);
+    background-color: rgb(31, 57, 25);
+
 }
 #error-msg{
     background-color: rgb(187, 71, 51);
 }
-@media screen and (max-width: 76){
+@media screen and (max-width: 768px){
     .main-wrapper{
         max-width: 100%;
     }
