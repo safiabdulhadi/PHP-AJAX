@@ -20,9 +20,11 @@
 
         <div class="header-2">
             <!-- <button id="load-btn">Load Data</button> -->
-            <input type="text" id="fname" placeholder="First name">
-            <input type="text" id="lname" placeholder="Last name">
-            <button id="add-btn">Add</button>
+            <form id="form">
+                <input type="text" id="fname" placeholder="First name">
+                <input type="text" id="lname" placeholder="Last name">
+                <button id="add-btn">Add</button>
+            </form>
         </div>
 
 
@@ -34,6 +36,7 @@
                     <tr>
                         <td>Id</td>
                         <td>Name</td>
+                        <td>Action</td>
                     </tr>
                 </thead>
                 <tbody id="record-table">
@@ -48,7 +51,7 @@
     <script src="js/jquery.js"></script>
     <script>
         $(document).ready(function() {
-
+         // Retrive DATA
             function loadData() {
                 $.ajax({
                     url: "ajax-call /select.php",
@@ -62,12 +65,13 @@
             loadData();
 
             // IINSERT DATA
-            $('#add-btn').on('click', function() {
+            $('#form').on('submit', function(e) {
+                e.preventDefault();
                 let fname = $('#fname').val();
                 let lname = $('#lname').val();
 
                 // CHECK FOR EMPTY FILED
-                if (fname == "" || lname == "") {
+                if (fname === "" || lname === "") {
                     $("#errror-msg").slideDown().html("All fileds are required !");
                     $("#success-msg").slideUp();
                 } else {
@@ -85,9 +89,8 @@
                                 loadData();
                                 $("#success-msg").slideDown().html("Record added successfully !");
                                 $("#error-msg").slideUp();
-                                $('#fname').val();
-                                $('#lname').val();
-                            }else{
+                                $("#form").trigger("reset");
+                            } else {
                                 $("$error-msg").slideDown().html("Record couldn't be added");
                                 $("#success-msg").slideUp();
                             }
@@ -97,6 +100,38 @@
                 }
 
             });
+
+
+            // Delete Data
+     $(document).on('click', '.delete-btn', function(){
+        // let id = $(this).attr('data-id');
+        // second way
+        if(confirm('Are you sure you want to delete it ?')){
+        let id = $(this).data('id');
+        $.ajax({
+            url:" ajax-call/delete.php",
+            type: "POST",
+            data : {id:id},
+            success: function (data){
+                if(data == 1){
+                    loadData();
+                $("#success-msg").slideDown().html("Record deleled Successfully !");
+                    $("#errror-msg").slideUp();
+                    setTimeout(function(){
+                        $("#success-msg").slideUp();
+                    }, 5000);
+                }else{
+                $("#errror-msg").slideDown().html("Record couldn' be deleled Successfully !");
+                    $("#errror-msg").slideUp();
+                    setTimeout(function(){
+                        $("#errror-msg").slideUp();
+                    }, 5000);
+                }
+            }
+        });
+    }
+     });
+
         });
     </script>
 </body>

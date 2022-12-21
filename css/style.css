@@ -61,11 +61,11 @@ background-color: salmon;
     padding: 10px 20px;
     top: 20px;
     right: 10px;
-    /* display: none; */
+    display: none;
 }
 
 #success-msg{
-    background-color: rgb(31, 57, 25);
+    background-color: rgb(156, 196, 147);
 
 }
 #error-msg{
