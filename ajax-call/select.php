@@ -15,8 +15,11 @@ if(mysqli_num_rows($result) > 0){
 
         <tr>
             <td>{$row['id']}</td>
-            <td>{$row['first_name']} {$row['lat_name']}</</td>
-            <td><button class='delete-btn' style='background-color: red; color:white;' data-id='{$row['id']}' >Delete</button</td>
+            <td>{$row['first_name']} {$row['last_name']}</</td>
+            <td>
+            <button class='delete-btn' style='background-color: red; color:white;' data-id='{$row['id']}' >Delete</button>
+            <button class='edit-btn' style='background-color: yellow; color:black;' data-id='{$row['id']}' >Edit</button>
+            </td>
         </tr>
         ";
 

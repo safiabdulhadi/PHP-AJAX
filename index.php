@@ -46,12 +46,25 @@
         </div>
         <div id="success-msg"></div>
         <div id="error-msg"></div>
+
+
+        <!-- Model Box -->
+        <div class="modal-wrapper">
+            <div class="modal-box">
+                <form action="">
+                    <input type="text">
+                    <input type="text">
+                    <button>Update</button>
+                </form>
+                <span id=".close-btn">X</span>
+            </div>
+        </div>
     </div>
 
     <script src="js/jquery.js"></script>
     <script>
         $(document).ready(function() {
-         // Retrive DATA
+            // Retrive DATA
             function loadData() {
                 $.ajax({
                     url: "ajax-call /select.php",
@@ -103,34 +116,45 @@
 
 
             // Delete Data
-     $(document).on('click', '.delete-btn', function(){
-        // let id = $(this).attr('data-id');
-        // second way
-        if(confirm('Are you sure you want to delete it ?')){
-        let id = $(this).data('id');
-        $.ajax({
-            url:" ajax-call/delete.php",
-            type: "POST",
-            data : {id:id},
-            success: function (data){
-                if(data == 1){
-                    loadData();
-                $("#success-msg").slideDown().html("Record deleled Successfully !");
-                    $("#errror-msg").slideUp();
-                    setTimeout(function(){
-                        $("#success-msg").slideUp();
-                    }, 5000);
-                }else{
-                $("#errror-msg").slideDown().html("Record couldn' be deleled Successfully !");
-                    $("#errror-msg").slideUp();
-                    setTimeout(function(){
-                        $("#errror-msg").slideUp();
-                    }, 5000);
+            $(document).on('click', '.delete-btn', function() {
+                // let id = $(this).attr('data-id');
+                // second way
+                if (confirm('Are you sure you want to delete it ?')) {
+                    let id = $(this).data('id');
+                    $.ajax({
+                        url: " ajax-call/delete.php",
+                        type: "POST",
+                        data: {
+                            id: id
+                        },
+                        success: function(data) {
+                            if (data == 1) {
+                                loadData();
+                                $("#success-msg").slideDown().html("Record deleled Successfully !");
+                                $("#errror-msg").slideUp();
+                                setTimeout(function() {
+                                    $("#success-msg").slideUp();
+                                }, 5000);
+                            } else {
+                                $("#errror-msg").slideDown().html("Record couldn' be deleled Successfully !");
+                                $("#errror-msg").slideUp();
+                                setTimeout(function() {
+                                    $("#errror-msg").slideUp();
+                                }, 5000);
+                            }
+                        }
+                    });
                 }
-            }
-        });
-    }
-     });
+            });
+
+            // Update DATA
+            $(document).on('click','.edit-btn', function(){
+                $('.modal-wrapper').css('display','flex');
+            });
+
+            $('.close-btn').on('click', function(){
+                $('.modal-wrapper').css('display','none');
+            });
 
         });
     </script>
