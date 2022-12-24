@@ -56,7 +56,7 @@
                     <input type="text">
                     <button>Update</button>
                 </form>
-                <span id=".close-btn">X</span>
+                <span id="close-btn">X</span>
             </div>
         </div>
     </div>
@@ -152,7 +152,7 @@
                 $('.modal-wrapper').css('display','flex');
             });
 
-            $('.close-btn').on('click', function(){
+            $('#close-btn').on('click', function(){
                 $('.modal-wrapper').css('display','none');
             });
 
