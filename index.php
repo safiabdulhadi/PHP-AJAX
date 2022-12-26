@@ -51,10 +51,8 @@
         <!-- Model Box -->
         <div class="modal-wrapper">
             <div class="modal-box">
-                <form action="">
-                    <input type="text">
-                    <input type="text">
-                    <button>Update</button>
+                <form action="" id="update-form">
+
                 </form>
                 <span id="close-btn">X</span>
             </div>
@@ -63,6 +61,7 @@
 
     <script src="js/jquery.js"></script>
     <script>
+
         $(document).ready(function() {
             // Retrive DATA
             function loadData() {
@@ -150,13 +149,50 @@
             // Update DATA
             $(document).on('click','.edit-btn', function(){
                 $('.modal-wrapper').css('display','flex');
+                let id = $(this).data('id');
+                $.ajax({
+                    url: "ajax-call/edit.php",
+                    type: 'POST',
+                    data: {id: id},
+                    success: function (data){
+                        $("#update-form").html(data);
+                    }
+
+                });
             });
 
             $('#close-btn').on('click', function(){
                 $('.modal-wrapper').css('display','none');
             });
 
+
+            $("#update-form").on('sumbit', function(e){
+                e.preventDefault();
+
+                let fname = $("#eid").val();
+                let fname = $("#efname").val();
+                let lname = $("#lfname").val();
+                $.ajax({
+                    url: "ajax-call/update.php",
+                    type: "POST",
+                    data: {id: id,fname:fname,lname:lname},
+                    success: function(data){
+                        if (data == 1) {
+                                loadData();
+                                $("#success-msg").slideDown().html("Record updated successfully !");
+                                $("#error-msg").slideUp();
+                                $('.modal-wrapper').css('display','none');
+                            } else {
+                                $("$error-msg").slideDown().html("Record couldn't be updated!");
+                                $("#success-msg").slideUp();
+                            }
+                        }
+
+                    });
+
+                });
         });
+
     </script>
 </body>
 
