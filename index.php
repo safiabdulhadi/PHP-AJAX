@@ -30,25 +30,22 @@
 
         <!-- Body -->
         <div class="body">
-            <table>
 
-                <thead>
-                    <tr>
-                        <td>Id</td>
-                        <td>Name</td>
-                        <td>Action</td>
-                    </tr>
-                </thead>
-                <tbody id="record-table">
+            <div id="search">
+                <input type="text" placeholder="Search ....">
+            </div>
 
-                </tbody>
-            </table>
+            <div id="record-table">
+
+
+            </div>
+
         </div>
         <div id="success-msg"></div>
         <div id="error-msg"></div>
 
 
-        <!-- Model Box -->
+        <!-- Model Box  -->
         <div class="modal-wrapper">
             <div class="modal-box">
                 <form action="" id="update-form">
@@ -61,20 +58,31 @@
 
     <script src="js/jquery.js"></script>
     <script>
-
+        // RETRIVE DATA
         $(document).ready(function() {
             // Retrive DATA
-            function loadData() {
+            function loadData(page) {
                 $.ajax({
                     url: "ajax-call /select.php",
                     type: "POST",
+                    data: {page: page},
                     success: function(data) {
                         $('#record-table').html(data);
                     }
 
                 });
             }
-            loadData();
+            loadData(1);
+
+
+                // CLICK EVENT FOR PAGINATION
+                $(document).on('click','.pagination a ', function(e){
+                    e.preventDefault();
+
+                    page_no = $(this).attr('id');
+                    loadData(page_no);
+                });
+
 
             // IINSERT DATA
             $('#form').on('submit', function(e) {
@@ -147,52 +155,77 @@
             });
 
             // Update DATA
-            $(document).on('click','.edit-btn', function(){
-                $('.modal-wrapper').css('display','flex');
+            $(document).on('click', '.edit-btn', function() {
+                $('.modal-wrapper').css('display', 'none');
                 let id = $(this).data('id');
                 $.ajax({
                     url: "ajax-call/edit.php",
                     type: 'POST',
-                    data: {id: id},
-                    success: function (data){
+                    data: {
+                        id: id
+                    },
+                    success: function(data) {
                         $("#update-form").html(data);
                     }
 
                 });
             });
+            // CLOSE MODAL BOX
 
-            $('#close-btn').on('click', function(){
-                $('.modal-wrapper').css('display','none');
+            $('#close-btn').on('click', function() {
+                $('.modal-wrapper').css('display', 'none');
             });
 
-
-            $("#update-form").on('sumbit', function(e){
+            // UPDATE RECORD
+            $("#update-form").on('sumbit', function(e) {
                 e.preventDefault();
 
-                let fname = $("#eid").val();
+                let id = $("#eid").val();
                 let fname = $("#efname").val();
                 let lname = $("#lfname").val();
                 $.ajax({
                     url: "ajax-call/update.php",
                     type: "POST",
-                    data: {id: id,fname:fname,lname:lname},
-                    success: function(data){
+                    data: {
+                        id: id,
+                        fname: fname,
+                        lname: lname
+                    },
+                    success: function(data) {
                         if (data == 1) {
-                                loadData();
-                                $("#success-msg").slideDown().html("Record updated successfully !");
-                                $("#error-msg").slideUp();
-                                $('.modal-wrapper').css('display','none');
-                            } else {
-                                $("$error-msg").slideDown().html("Record couldn't be updated!");
-                                $("#success-msg").slideUp();
-                            }
+                            loadData();
+                            $("#success-msg").slideDown().html("Record updated successfully !");
+                            $("#error-msg").slideUp();
+                            $('.modal-wrapper').css('display', 'none');
+                        } else {
+                            $("$error-msg").slideDown().html("Record couldn't be updated!");
+                            $("#success-msg").slideUp();
                         }
-
-                    });
+                    }
 
                 });
-        });
 
+            });
+            // LIVE SEARCH
+
+            $(document).on('keyup', '#search input', function() {
+
+                let searchTerm = $(this).val();
+                // AJAX CALL
+                $.ajax({
+                    url: "ajax-call/search.php",
+                    type: "POST",
+                    data: {
+                        searchTerm: searchTerm
+                    },
+                    success: function(data) {
+                        $('#record-table').html(data);
+                    }
+
+                });
+            });
+
+        });
     </script>
 </body>
 
